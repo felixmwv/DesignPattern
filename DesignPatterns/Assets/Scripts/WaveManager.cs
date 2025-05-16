@@ -10,28 +10,27 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
+        // Notify listeners of the initial wave and start spawning enemies
         EventManager.WaveChanged(CurrentWave);
         SetState(new SpawningState(this, enemyPool, CurrentWave));
     }
 
-
     private void Update()
     {
-        currentState?.Update();
+        currentState?.Update(); // Update the current state
     }
 
     public void SetState(IWaveState newState)
     {
-        currentState?.Exit();
+        currentState?.Exit(); // Exit the current state
         currentState = newState;
-        currentState.Enter();
+        currentState.Enter(); // Enter the new state
     }
 
     public void NextWave()
     {
-        CurrentWave++;
-        EventManager.WaveChanged(CurrentWave);
-        SetState(new SpawningState(this, enemyPool, CurrentWave));
+        CurrentWave++; // Increment the wave number
+        EventManager.WaveChanged(CurrentWave); // Notify listeners of the new wave
+        SetState(new SpawningState(this, enemyPool, CurrentWave)); // Start spawning for the new wave
     }
-
 }
